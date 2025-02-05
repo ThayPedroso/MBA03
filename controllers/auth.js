@@ -7,7 +7,7 @@ const User = require("../models/user");
 exports.signup = (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
-    const error = new Error("Validation failed, incorrect data entered.", {
+    const error = new Error(errors.errors[0].msg, {
       cause: 422,
     });
     throw error;
