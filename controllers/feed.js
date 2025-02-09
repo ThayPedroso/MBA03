@@ -1,5 +1,4 @@
-const fs = require("fs");
-const path = require("path");
+const util = require("../util/util");
 
 const { validationResult } = require("express-validator");
 
@@ -112,22 +111,24 @@ exports.updatePost = (req, res, next) => {
   Post.findById(postId)
     .then((post) => {
       if (!post) {
-        const error = new Error("Unable to find post.");
-        error.statusCode = 404;
+        const error = new Error("Unable to find post.", {
+          cause: 404,
+        });
         throw error;
       }
       if (post.creator.toString() !== req.userId) {
-        const error = new Error("Not authorized.");
-        error.statusCode = 403;
+        //clearImage(imageUrl);
+        const error = new Error("Not authorized.", {
+          cause: 403,
+        });
         throw error;
       }
       if (imageUrl !== post.imageUrl) {
-        clearImage(post.imageUrl);
+        util.clearImage(post.imageUrl);
       }
       post.title = title;
       post.content = content;
       post.imageUrl = imageUrl;
-      console.log("Passou pelo save");
       return post.save();
     })
     .then((result) => {
@@ -158,7 +159,7 @@ exports.deletePost = (req, res, next) => {
         throw error;
       }
       //Check logged user
-      clearImage(post.imageUrl);
+      util.clearImage(post.imageUrl);
       return Post.findByIdAndDelete(postId);
     })
     .then((result) => {
@@ -177,9 +178,4 @@ exports.deletePost = (req, res, next) => {
       }
       next(err);
     });
-};
-
-const clearImage = (filePath) => {
-  filePath = path.join(__dirname, "..", filePath);
-  fs.unlink(filePath, (err) => console.log(err));
 };

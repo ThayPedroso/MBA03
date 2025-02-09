@@ -8,7 +8,13 @@ module.exports = (req, res, next) => {
     });
     throw error;
   }
-  const token = req.get("Authorization").split(" ")[1];
+  const token = req.get("Authorization").split(" ")[1].trim();
+  if (token === "undefined") {
+    const error = new Error("Not authorized.", {
+      cause: 403,
+    });
+    throw error;
+  }
   let decodedToken;
   try {
     decodedToken = jwt.verify(token, "somesupersecretserverpassword");

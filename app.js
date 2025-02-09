@@ -7,6 +7,7 @@ const multer = require("multer");
 const feedRoutes = require("./routes/feed");
 const authRoutes = require("./routes/auth");
 const serverRoutes = require("./routes/server");
+const util = require("./util/util");
 
 const app = express();
 
@@ -49,6 +50,9 @@ app.use("/auth", authRoutes);
 app.use("/server", serverRoutes);
 
 app.use((error, req, res, next) => {
+  if (req.method === "PUT") {
+    util.clearImage(req.file.path);
+  }
   const status = error.cause || 500;
   const message = error.message;
   res.status(status).json({ message: message });
