@@ -50,7 +50,7 @@ app.use("/auth", authRoutes);
 app.use("/server", serverRoutes);
 
 app.use((error, req, res, next) => {
-  if (req.method === "PUT") {
+  if (req.method === "PUT" && req.file !== undefined) {
     util.clearImage(req.file.path);
   }
   const status = error.cause || 500;
