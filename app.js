@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const multer = require("multer");
+require("dotenv").config();
 
 const feedRoutes = require("./routes/feed");
 const authRoutes = require("./routes/auth");
@@ -60,7 +61,7 @@ app.use((error, req, res, next) => {
 
 mongoose
   .connect(
-    "mongodb+srv://thaylapedroso88:jTexNeBoVSBlIDUs@mongodb.8g4dc.mongodb.net/?retryWrites=true&w=majority&appName=mongoDB",
+    `mongodb+srv://thaylapedroso88:${process.env.MONGO_DB_PASSWORD}@mongodb.8g4dc.mongodb.net/?retryWrites=true&w=majority&appName=mongoDB`,
   )
   .then((result) => {
     app.listen(8080);
