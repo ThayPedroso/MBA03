@@ -3,9 +3,9 @@ const supertest = require("supertest");
 const request = supertest("http://localhost:8080/");
 
 describe("Auth API", () => {
-  describe("/auth/signup", () => {
+  describe("/v1/auth/signup", () => {
     test("should create new user and return 201", async () => {
-      const response = await request.put("auth/signup").send({
+      const response = await request.put("v1/auth/signup").send({
         email: "test@example.com",
         name: "Test User",
         password: "password123",
@@ -16,7 +16,7 @@ describe("Auth API", () => {
     });
 
     test("should return error msg if email already exists", async () => {
-      const response = await request.put("auth/signup").send({
+      const response = await request.put("v1/auth/signup").send({
         email: "test@example.com",
         name: "Test User",
         password: "password123",
@@ -27,7 +27,7 @@ describe("Auth API", () => {
     });
 
     test("should return error if user empty", async () => {
-      const response = await request.put("auth/signup").send({
+      const response = await request.put("v1/auth/signup").send({
         email: "test@test.com",
         name: "",
         password: "",
@@ -40,7 +40,7 @@ describe("Auth API", () => {
 
   describe("/auth/login", () => {
     test("should log in a user and return a token", async () => {
-      const response = await request.post("auth/login").send({
+      const response = await request.post("v1/auth/login").send({
         email: "test@example.com",
         password: "password123",
       });
@@ -50,7 +50,7 @@ describe("Auth API", () => {
     });
 
     test("should return 401 if user is not found", async () => {
-      const response = await request.post("auth/login").send({
+      const response = await request.post("v1/auth/login").send({
         email: "notSigned@email.com",
         password: "password123",
       });
@@ -62,7 +62,7 @@ describe("Auth API", () => {
     });
 
     test("should return 401 if password is incorrect", async () => {
-      const response = await request.post("auth/login").send({
+      const response = await request.post("v1/auth/login").send({
         email: "test@example.com",
         password: "password321",
       });

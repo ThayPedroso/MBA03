@@ -46,8 +46,8 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use("/feed", feedRoutes);
-app.use("/auth", authRoutes);
+app.use("/v1/feed", feedRoutes);
+app.use("/v1/auth", authRoutes);
 app.use("/server", serverRoutes);
 
 app.use((error, req, res, next) => {

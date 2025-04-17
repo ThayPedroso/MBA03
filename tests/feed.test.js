@@ -1,7 +1,7 @@
 const path = require("path");
 const supertest = require("supertest");
 
-const request = supertest("http://localhost:8080/");
+const request = supertest("http://localhost:8080/v1/");
 
 describe("Feed API", () => {
   let bearerToken;
